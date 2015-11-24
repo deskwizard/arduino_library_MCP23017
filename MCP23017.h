@@ -84,8 +84,8 @@ class MCP23017
 #define MCP_DEFVALB  0x07
 #define MCP_INTCONA  0x08   // Interrupt control (0 = interrupt on change from previous, 1 = interrupt on change from DEFVAL)
 #define MCP_INTCONB  0x09
-#define MCP_IOCON    0x0A   // IO Configuration: bank/mirror/seqop/disslw/haen/odr/intpol/notimp
-#define MCP_IOCON    0x0B   // same as 0x0A
+#define MCP_IOCONA    0x0A   // IO Configuration: bank/mirror/seqop/disslw/haen/odr/intpol/notimp
+#define MCP_IOCONB    0x0B   // same as 0x0A
 #define MCP_GPPUA    0x0C   // Pull-up resistor (0 = disabled, 1 = enabled)
 #define MCP_GPPUB    0x0D
 #define MCP_INFTFA   0x0E   // Interrupt flag (read only) : (0 = no interrupt, 1 = pin caused interrupt)

@@ -187,7 +187,8 @@ void MCP23017::handleClicks(){
 void MCP23017::configure()
 {
 // expander configuration register
-  writeReg(MCP_IOCON, 0x60);      		// Disable sequential mode (0b01100000)
+  writeReg(MCP_IOCONA, 0x60);      		// Disable sequential mode (0b01100000)
+  writeReg(MCP_IOCONB, 0x60);      		// Disable sequential mode (0b01100000)
 
   // Port A configuration
   writeReg(MCP_GPPUA, 0xFF);            // Enable pull-up resistors - Port A
