@@ -18,7 +18,28 @@
 
 // **** Buttons related class instances ****
 
-
+uint8_t MCP23017::buttonRead(uint8_t _buttonID){
+        uint8_t retval = 0x00;
+#ifdef _MCP_SERIAL_DEBUG2
+        Serial.print("Handling (read) for buttonID: ");
+        Serial.print(_buttonID);
+        Serial.print(" : ");
+        Serial.println(buttonNeedHandling[_buttonID]);
+#endif
+        retval = buttonClickType[_buttonID];
+        if (buttonNeedHandling[_buttonID] == true){
+#ifdef _MCP_SERIAL_DEBUG4
+                Serial.print("Button handling (read) Required for Button ID: ");
+                Serial.println(_buttonID);
+#endif
+                buttonNeedHandling[_buttonID] = false;
+                retval |= 0x80;
+        }
+ 
+        return retval;
+}
+ 
+/*
 uint8_t MCP23017::buttonRead(uint8_t _buttonID){
 #ifdef _MCP_SERIAL_DEBUG2
 	Serial.print("Handling (read) for buttonID: ");
@@ -38,7 +59,7 @@ uint8_t MCP23017::buttonRead(uint8_t _buttonID){
 		return MCP_ERR;
 	}
 }
-
+*/
 // Class instance to get what pin caused the interrupt
 uint8_t MCP23017::getLastIntPin(){
 
@@ -60,7 +81,7 @@ void MCP23017::handleClicks(){
 
 	uint32_t currentMillis = millis();    // Save current millis()
 
-	for(uint8_t x = 0; x < 8; x++) {	 // lopp through buttons
+	for(uint8_t x = 0; x < 8; x++) {	 // loop through buttons
 
 	// Single/Double click handling
 		if (currentMillis - buttonReleaseTime[x] >= 225){	

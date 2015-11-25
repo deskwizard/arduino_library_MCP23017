@@ -55,6 +55,10 @@ class MCP23017
 
 };  
 
+	inline bool is_new(uint8_t e) {return e & 0x80;}
+	inline uint8_t type_of_e(uint8_t e) {return e & 0x7F;}
+	inline bool is_new_of_type(uint8_t e, uint8_t t) {return is_new(e) && type_of_e(e) == t;}
+
 #define MCP_ADDRESS 0x20     // MCP23017 is on address 0x20 (all addresses pins low)
 #define MCP_ERR 255
 #define MCP_ISR_DEBOUNCE 50	 // MCP23017 interrupt debouce time
