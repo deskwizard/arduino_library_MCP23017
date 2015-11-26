@@ -21,7 +21,7 @@
 uint8_t MCP23017::buttonRead(uint8_t _buttonID) {
   uint8_t retval = 0x00;
 #ifdef _MCP_SERIAL_DEBUG2
-  Serial.print("Handling (read) for buttonID: ");
+  Serial.print(F("Handling (read) for buttonID: "));
   Serial.print(_buttonID);
   Serial.print(" : ");
   Serial.println(buttonNeedHandling[_buttonID]);
@@ -29,7 +29,7 @@ uint8_t MCP23017::buttonRead(uint8_t _buttonID) {
   retval = buttonClickType[_buttonID];
   if (buttonNeedHandling[_buttonID] == true) {
 #ifdef _MCP_SERIAL_DEBUG4
-    Serial.print("Button handling (read) Required for Button ID: ");
+    Serial.print(F("Button handling (read) Required for Button ID: "));
     Serial.println(_buttonID);
 #endif
     buttonNeedHandling[_buttonID] = false;
@@ -70,7 +70,7 @@ void MCP23017::handleClicks() {
         buttonClickType[x] = MCP_DOUBLE_CLICK;
         buttonReleaseCount[x] = 0;
 #ifdef _MCP_SERIAL_DEBUG
-        Serial.print("Double click on button ");
+        Serial.print(F("Double click on button "));
         Serial.println(x);
         Serial.println();
 #endif
@@ -80,7 +80,7 @@ void MCP23017::handleClicks() {
         buttonClickType[x] = MCP_CLICK;
         buttonReleaseCount[x] = 0;
 #ifdef _MCP_SERIAL_DEBUG
-        Serial.print("Single click on button ");
+        Serial.print(F("Single click on button "));
         Serial.println(x);
         Serial.println();
 
@@ -88,7 +88,7 @@ void MCP23017::handleClicks() {
 
       if (buttonNeedHandling[x] == true) {
 #ifdef _MCP_SERIAL_DEBUG3
-        Serial.print("Button handling (handle) Required for Button ID: ");
+        Serial.print(F("Button handling (handle) Required for Button ID: "));
         Serial.println(x);
 #endif
 #endif
@@ -101,9 +101,9 @@ void MCP23017::handleClicks() {
       buttonNeedHandling[x] = true;
       buttonClickType[x] = MCP_HELD_DOWN;
 #ifdef _MCP_SERIAL_DEBUG
-      Serial.print("Button ");
+      Serial.print(F("Button "));
       Serial.print(x);
-      Serial.println(" is held down");
+      Serial.println(F(" is held down"));
       Serial.println();
 #endif
     }
@@ -129,14 +129,14 @@ void MCP23017::handleClicks() {
             buttonNeedHandling[_buttonID] = true;
             buttonClickType[_buttonID] = MCP_PRESS;
 #ifdef _MCP_SERIAL_DEBUG
-            Serial.print("Button press on button: ");
+            Serial.print(F("Button press on button: "));
             Serial.println(_buttonID);
             Serial.println();
 #endif
 #ifdef _MCP_SERIAL_DEBUG2
-            Serial.print("Press Time for button:  ");
+            Serial.print(F("Press Time for button:  "));
             Serial.print(_buttonID);
-            Serial.print(" : ");
+            Serial.print(F(" : "));
             Serial.println(currentMillis - buttonPressTime[_buttonID]);
             Serial.println();
 #endif
@@ -145,9 +145,9 @@ void MCP23017::handleClicks() {
           }
           else {                  // Released
 #ifdef _MCP_SERIAL_DEBUG2
-            Serial.print("Release count: ");
+            Serial.print(F("Release count: "));
             Serial.print(buttonReleaseCount[_buttonID]);
-            Serial.print("  Time: ");
+            Serial.print(F("  Time: "));
             Serial.println(currentMillis - buttonReleaseTime[_buttonID]);
             Serial.println();
 #endif
@@ -158,7 +158,7 @@ void MCP23017::handleClicks() {
               buttonNeedHandling[_buttonID] = true;
               buttonClickType[_buttonID] = MCP_LONG_CLICK;
 #ifdef _MCP_SERIAL_DEBUG
-              Serial.print("Long click on button ");
+              Serial.print(F("Long click on button "));
               Serial.println(_buttonID);
               Serial.println();
 #endif
@@ -169,9 +169,9 @@ void MCP23017::handleClicks() {
                 buttonNeedHandling[_buttonID] = true;
                 buttonClickType[_buttonID] = MCP_HELD_RELEASE;
 #ifdef _MCP_SERIAL_DEBUG
-                Serial.print("Button ");
+                Serial.print(F("Button "));
                 Serial.print(_buttonID);
-                Serial.println(" was held down, now is released");
+                Serial.println(F(" was held down, now is released"));
                 Serial.println();
 #endif
               }
