@@ -65,12 +65,11 @@ class MCP23017
 
 // Types of button clicks
 #define MCP_PRESS			1	 // ID for button press
-#define MCP_RELEASE			2	 // ID for button release
-#define MCP_CLICK			3	 // ID for clicks
-#define MCP_DOUBLE_CLICK	4    // ID for double clicks
-#define MCP_LONG_CLICK 		5 	 // ID for long clicks
-#define MCP_HELD_DOWN 		6 	 // ID for button held down
-#define MCP_HELD_RELEASE	7 	 // ID for button held down
+#define MCP_CLICK			2	 // ID for clicks (also button release)
+#define MCP_DOUBLE_CLICK	3    // ID for double clicks
+#define MCP_LONG_CLICK 		4 	 // ID for long clicks
+#define MCP_HELD_DOWN 		5 	 // ID for button held down
+#define MCP_HELD_RELEASE	6 	 // ID for button held down
 
 // Button timeout value in ms
 #define MCP_LONG_CLICK_TIMEOUT (MCP_LONG_CLICK_LENGTH * 3)
@@ -80,26 +79,27 @@ class MCP23017
 
 
 // MCP23017 registers (everything except direction defaults to 0)
-#define MCP_IODIRA   0x00   // IO direction  (0 = output, 1 = input (Default))
-#define MCP_IODIRB   0x01
-#define MCP_IOPOLA   0x02   // IO polarity   (0 = normal, 1 = inverse)
-#define MCP_IOPOLB   0x03
-#define MCP_GPINTENA 0x04   // Interrupt on change (0 = disable, 1 = enable)
-#define MCP_GPINTENB 0x05
-#define MCP_DEFVALA  0x06   // Default comparison for interrupt on change (interrupts on opposite)
-#define MCP_DEFVALB  0x07
-#define MCP_INTCONA  0x08   // Interrupt control (0 = interrupt on change from previous, 1 = interrupt on change from DEFVAL)
-#define MCP_INTCONB  0x09
-#define MCP_IOCONA    0x0A   // IO Configuration: bank/mirror/seqop/disslw/haen/odr/intpol/notimp
-#define MCP_IOCONB    0x0B   // same as 0x0A
-#define MCP_GPPUA    0x0C   // Pull-up resistor (0 = disabled, 1 = enabled)
-#define MCP_GPPUB    0x0D
-#define MCP_INFTFA   0x0E   // Interrupt flag (read only) : (0 = no interrupt, 1 = pin caused interrupt)
-#define MCP_INFTFB   0x0F
-#define MCP_INTCAPA  0x10   // Interrupt capture (read only) : value of GPIO at time of last interrupt
-#define MCP_INTCAPB  0x11
-#define MCP_GPIOA    0x12   // Port value. Write to change, read to obtain value
-#define MCP_GPIOB    0x13
-#define MCP_OLLATA   0x14   // Output latch. Write to latch output. Read only reads latch, not port pin!
-#define MCP_OLLATB   0x15
+#define MCP_IODIRA   	0x00   // IO direction  (0 = output, 1 = input (Default))
+#define MCP_IODIRB   	0x01
+#define MCP_IOPOLA  	0x02   // IO polarity   (0 = normal, 1 = inverse)
+#define MCP_IOPOLB  	0x03
+#define MCP_GPINTENA	0x04   // Interrupt on change (0 = disable, 1 = enable)
+#define MCP_GPINTENB 	0x05
+#define MCP_DEFVALA  	0x06   // Default comparison for interrupt on change (interrupts on opposite)
+#define MCP_DEFVALB  	0x07
+#define MCP_INTCONA  	0x08   // Interrupt control (0 = interrupt on change from previous, 1 = interrupt on change from DEFVAL)
+#define MCP_INTCONB  	0x09
+#define MCP_IOCONA   	0x0A   // IO Configuration: bank/mirror/seqop/disslw/haen/odr/intpol/notimp
+#define MCP_IOCONB   	0x0B   // same as 0x0A
+#define MCP_GPPUA    	0x0C   // Pull-up resistor (0 = disabled, 1 = enabled)
+#define MCP_GPPUB    	0x0D
+#define MCP_INFTFA   	0x0E   // Interrupt flag (read only) : (0 = no interrupt, 1 = pin caused interrupt)
+#define MCP_INFTFB   	0x0F
+#define MCP_INTCAPA  	0x10   // Interrupt capture (read only) : value of GPIO at time of last interrupt
+#define MCP_INTCAPB  	0x11
+#define MCP_GPIOA    	0x12   // Port value. Write to change, read to obtain value
+#define MCP_GPIOB    	0x13
+#define MCP_OLLATA   	0x14   // Output latch. Write to latch output. Read only reads latch, not port pin!
+#define	MCP_OLLATB   	0x15
+
 #endif //ifndef _MCP23017_H_

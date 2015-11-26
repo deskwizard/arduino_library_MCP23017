@@ -144,15 +144,6 @@ void MCP23017::handleClicks() {
 
           }
           else {                  // Released
-
-//            buttonNeedHandling[_buttonID] = true;
-//            buttonClickType[_buttonID] = MCP_RELEASE;
-
-#ifdef _MCP_SERIAL_DEBUG
-            Serial.print("Button release on button: ");
-            Serial.println(_buttonID);
-            Serial.println();
-#endif
 #ifdef _MCP_SERIAL_DEBUG2
             Serial.print("Release count: ");
             Serial.print(buttonReleaseCount[_buttonID]);
