@@ -39,27 +39,7 @@ uint8_t MCP23017::buttonRead(uint8_t _buttonID){
         return retval;
 }
  
-/*
-uint8_t MCP23017::buttonRead(uint8_t _buttonID){
-#ifdef _MCP_SERIAL_DEBUG2
-	Serial.print("Handling (read) for buttonID: ");
-	Serial.print(_buttonID);
-	Serial.print(" : ");
-	Serial.println(buttonNeedHandling[_buttonID]);
-#endif
-	if (buttonNeedHandling[_buttonID] == true){
-#ifdef _MCP_SERIAL_DEBUG4
-		Serial.print("Button handling (read) Required for Button ID: ");
-		Serial.println(_buttonID);
-#endif
-		buttonNeedHandling[_buttonID] = false;
-		return buttonClickType[_buttonID];
-	}
-	else {
-		return MCP_ERR;
-	}
-}
-*/
+
 // Class instance to get what pin caused the interrupt
 uint8_t MCP23017::getLastIntPin(){
 
@@ -155,6 +135,13 @@ void MCP23017::handleClicks(){
 							Serial.println();
 #endif
 							buttonPressTime[_buttonID] = currentMillis;  // Save the time at which the button was pressed (approximately...)
+#ifdef _MCP_SERIAL_DEBUG
+							Serial.print("Button press on button: ");
+							Serial.println(_buttonID);
+							Serial.println();
+#endif
+
+
 	  				}
 					else {    				      // Released
 #ifdef _MCP_SERIAL_DEBUG2					
@@ -162,6 +149,11 @@ void MCP23017::handleClicks(){
 							Serial.print(buttonReleaseCount[_buttonID]);
 							Serial.print("	Time: ");
 							Serial.println(currentMillis - buttonReleaseTime[_buttonID]);
+							Serial.println();
+#endif
+#ifdef _MCP_SERIAL_DEBUG
+							Serial.print("Button release on button: ");
+							Serial.println(_buttonID);
 							Serial.println();
 #endif
 						if (isr_time_diff < MCP_LONG_CLICK_LENGTH){

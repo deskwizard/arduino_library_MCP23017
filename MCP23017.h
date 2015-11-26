@@ -64,11 +64,13 @@ class MCP23017
 #define MCP_ISR_DEBOUNCE 50	 // MCP23017 interrupt debouce time
 
 // Types of button clicks
-#define MCP_CLICK			1	 // ID for clicks
-#define MCP_DOUBLE_CLICK	2    // ID for double clicks
-#define MCP_LONG_CLICK 		3 	 // ID for long clicks
-#define MCP_HELD_DOWN 		4 	 // ID for button held down
-#define MCP_HELD_RELEASE	5 	 // ID for button held down
+#define MCP_BTNDOWN			1	 // ID for button press
+#define MCP_BTNUP			2	 // ID for button release
+#define MCP_CLICK			3	 // ID for clicks
+#define MCP_DOUBLE_CLICK	4    // ID for double clicks
+#define MCP_LONG_CLICK 		5 	 // ID for long clicks
+#define MCP_HELD_DOWN 		6 	 // ID for button held down
+#define MCP_HELD_RELEASE	7 	 // ID for button held down
 
 // Button timeout value in ms
 #define MCP_LONG_CLICK_TIMEOUT (MCP_LONG_CLICK_LENGTH * 3)
