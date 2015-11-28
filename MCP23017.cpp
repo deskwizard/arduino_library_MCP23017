@@ -15,6 +15,58 @@
 #include <Arduino.h>
 
 
+// **** GPIO related class instances ****
+
+void MCP23017::setGPIO(uint8_t pin, uint8_t value){
+	// read register ** Change later **
+    readGPIO = readReg(MCP_GPIOB);
+
+	Serial.print(F("GPIOB register read before: "));
+	Serial.println(readGPIO);
+
+	// Change required pin here.
+	Serial.print(F("Pin "));
+	Serial.print(pin);
+	Serial.print(F(" value requested: "));
+	Serial.println(value);
+	Serial.print(F("Current pin "));
+	Serial.print(pin);	
+	Serial.print(F(" value: "));
+	Serial.println(bitRead(readGPIO, pin));
+
+	// Change bit
+	switch (value) {
+	case LOW:
+		Serial.println(F(" - LOW - "));
+		bitClear(readGPIO, pin);
+	break;
+	case HIGH:
+		Serial.println(F(" - HIGH - "));
+		bitSet(readGPIO, pin);
+	break;
+	case INV:
+		Serial.println(F(" - INV - "));
+		bitToggle(readGPIO, pin);
+	break;
+	}
+
+	Serial.print(F("Pin "));
+	Serial.print(pin);
+	Serial.print(F(" value set to: "));
+	Serial.println(bitRead(readGPIO, pin));
+	Serial.print(F("Current pin value: "));
+	Serial.println(bitRead(readGPIO, pin));
+
+	// Update MCP
+	writeReg(MCP_GPIOB, readGPIO);
+
+
+	readGPIO = readReg(MCP_GPIOB);
+	Serial.print(F("GPIOB register read after: "));
+	Serial.println(bitRead(readGPIO, pin));
+	Serial.println();
+}
+
 
 // **** Buttons related class instances ****
 

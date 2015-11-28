@@ -12,7 +12,11 @@
 
 class MCP23017
 {
+	// Routines internal to the library
 
+	void configure();					// configures MCP23017
+
+	// Interrupt related
     const uint8_t whichISR_;			// ISR ID (INT0 or INT1)
     static void isr0 ();				// INT0 ISR
     static void isr1 ();				// INT1 ISR
@@ -31,37 +35,57 @@ class MCP23017
 	volatile bool ISR_flag = false;		// MCP23017 Interrupt flag
     void handleInterrupt ();			// Interrupt Handler
 
-	void configure();					// configures MCP23017
+	// Button related
+	uint8_t getLastIntPin();				// Gets which pin caused the interrupt
+	uint32_t prevISRMillis = 0; 			// Tracks the time since ISR fired last
+	uint32_t buttonPressTime[8] = {0};		// Time the button was pressed
+	uint32_t buttonReleaseTime[8] = {0};	// Time the button was released
+	uint8_t buttonReleaseCount[8] = {0};	// Button release counter (single/double click handling)
+    bool buttonState[8] = {false};			// State of the keys (Up/Down)
+	bool buttonNeedHandling[8] = {false};	// Button handling required flag
+	uint8_t buttonClickType[8] = {0};		// Button press type (Long, short, double, etc...)	
 
-	uint8_t getLastIntPin();			// Gets which pin caused the interrupt
-	uint32_t prevISRMillis = 0; 		// Tracks the time since ISR fired last
-	uint32_t buttonPressTime[8] = {0};	// Time the button was pressed
-	uint32_t buttonReleaseTime[8] = {0};// Time the button was released
-	uint8_t buttonReleaseCount[8] = {0};// Button release counter (single/double click handling)
-    bool buttonState[8] = {false};		// State of the keys (Up/Down)
-	bool buttonNeedHandling[8] = {false};		// Button handling required flag
-	uint8_t buttonClickType[8] = {0};	// Button press type (Long, short, double, etc...)	
-   
-  public:
+	uint8_t readGPIO;
+
+  public:	// Routines accessible by Arduino sketches
+
     MCP23017(const uint8_t which);		// Starts I2C bus, and prepare INT(which)
     void begin();						// configures Arduino INT(which) pin and MCP23017 registers
 
+	// Button related
 	void handleClicks();				// Button click handler function
 	uint8_t buttonRead(uint8_t _buttonID);
 
+	// GPIO related
+	void setGPIO(uint8_t pin, uint8_t value);
+
+	// Direct register access
 	void writeReg(const uint8_t reg, const uint8_t data);			// Write a register to MCP23017
     void writeBothReg(const uint8_t reg, const uint8_t data);		// Write both registers to MCP23017
 	uint8_t readReg(const uint8_t reg);								// Read a register from MCP23017
 
 };  
 
+	// Button related (Public) 
 	inline bool is_new(uint8_t e) {return e & 0x80;}
 	inline uint8_t type_of_e(uint8_t e) {return e & 0x7F;}
 	inline bool is_new_of_type(uint8_t e, uint8_t t) {return is_new(e) && type_of_e(e) == t;}
+	
+
+// Definitions
+
+// #define bitSet(value, bit) ((value) |= (1UL << (bit)))
+// #define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
+// number &= ~(1 << x);
+
+// number ^= 1 << x;
+#define bitToggle(value, bit) ((value) ^= (1UL << (bit)))
 
 #define MCP_ADDRESS 0x20     // MCP23017 is on address 0x20 (all addresses pins low)
 #define MCP_ERR 255
 #define MCP_ISR_DEBOUNCE 50	 // MCP23017 interrupt debouce time
+
+#define INV 2				 // Used for GPIO (LOW = 0, HIGH = 1, INV = toggle)
 
 // Types of button clicks
 #define MCP_PRESS			1	 // ID for button press
@@ -99,7 +123,7 @@ class MCP23017
 #define MCP_INTCAPB  	0x11
 #define MCP_GPIOA    	0x12   // Port value. Write to change, read to obtain value
 #define MCP_GPIOB    	0x13
-#define MCP_OLLATA   	0x14   // Output latch. Write to latch output. Read only reads latch, not port pin!
+#define MCP_OLLATA   	0x14   // Output latch. Write to latch output. *** Read only reads latch, not port pin! ***
 #define	MCP_OLLATB   	0x15
 
 #endif //ifndef _MCP23017_H_
