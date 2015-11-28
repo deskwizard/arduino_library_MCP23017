@@ -366,8 +366,8 @@ void MCP23017::attach_isr() {
   }
 }
 
-// Class constructor (needs to be placed after "begin()" routine)
-MCP23017::MCP23017 (const uint8_t whichISR) : whichISR_ (whichISR)
+// Class constructor (needs to be placed after "begin()" routine in library)
+MCP23017::MCP23017 (const uint8_t address, const uint8_t whichISR, const uint8_t last_button, const uint8_t output_count) : whichISR_ (whichISR)
 {
   Wire.begin(); // Start i2c bus
 }

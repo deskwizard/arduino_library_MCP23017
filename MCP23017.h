@@ -9,9 +9,29 @@
 
 #define _MCP_SERIAL_DEBUG		// Displays clicks, double clicks, long clicks, held down and held release events
 #define _MCP_SERIAL_DEBUG		// Displays press / release time
-
 class MCP23017
 {
+
+  public:	// Routines accessible by Arduino sketches
+
+    // Starts I2C bus for MCP on address 'address', prepare INT(which) for 'button_count' buttons 
+	// and configure 'output_count' outputs
+    MCP23017(const uint8_t address, const uint8_t which, const uint8_t button_count, const uint8_t output_count);		
+    void begin();						// configures Arduino INT(which) pin and MCP23017 registers
+
+	// Button related
+	void handleClicks();				// Button click handler function
+	uint8_t buttonRead(uint8_t _buttonID);
+
+	// GPIO related
+	void setGPIO(uint8_t pin, uint8_t value);
+
+	// Direct register access
+	void writeReg(const uint8_t reg, const uint8_t data);			// Write a register to MCP23017
+    void writeBothReg(const uint8_t reg, const uint8_t data);		// Write both registers to MCP23017
+	uint8_t readReg(const uint8_t reg);								// Read a register from MCP23017
+
+	private:
 	// Routines internal to the library
 
 	void configure();					// configures MCP23017
@@ -46,24 +66,6 @@ class MCP23017
 	uint8_t buttonClickType[8] = {0};		// Button press type (Long, short, double, etc...)	
 
 	uint8_t readGPIO;
-
-  public:	// Routines accessible by Arduino sketches
-
-    MCP23017(const uint8_t which);		// Starts I2C bus, and prepare INT(which)
-    void begin();						// configures Arduino INT(which) pin and MCP23017 registers
-
-	// Button related
-	void handleClicks();				// Button click handler function
-	uint8_t buttonRead(uint8_t _buttonID);
-
-	// GPIO related
-	void setGPIO(uint8_t pin, uint8_t value);
-
-	// Direct register access
-	void writeReg(const uint8_t reg, const uint8_t data);			// Write a register to MCP23017
-    void writeBothReg(const uint8_t reg, const uint8_t data);		// Write both registers to MCP23017
-	uint8_t readReg(const uint8_t reg);								// Read a register from MCP23017
-
 };  
 
 	// Button related (Public) 
@@ -74,11 +76,6 @@ class MCP23017
 
 // Definitions
 
-// #define bitSet(value, bit) ((value) |= (1UL << (bit)))
-// #define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
-// number &= ~(1 << x);
-
-// number ^= 1 << x;
 #define bitToggle(value, bit) ((value) ^= (1UL << (bit)))
 
 #define MCP_ADDRESS 0x20     // MCP23017 is on address 0x20 (all addresses pins low)
@@ -100,7 +97,6 @@ class MCP23017
 
 // Button long click minimum length in ms (ie. maximum short click length)
 #define MCP_LONG_CLICK_LENGTH	500		// Button press is considered a "long press" after this value (in ms)
-
 
 // MCP23017 registers (everything except direction defaults to 0)
 #define MCP_IODIRA   	0x00   // IO direction  (0 = output, 1 = input (Default))
