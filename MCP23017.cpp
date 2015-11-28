@@ -243,6 +243,138 @@ void MCP23017::handleClicks() {
 }
 
 
+/*
+void MCP23017::configure()
+{
+  // expander configuration register
+  writeReg(MCP_IOCONA, 0x60);         // Disable sequential mode (0b01100000)
+  writeReg(MCP_IOCONB, 0x60);         // Disable sequential mode (0b01100000)
+
+  uint8_t tempGPPUA;
+  uint8_t tempIOPOLA;
+  uint8_t tempGPINTENA;
+  uint8_t tempIODIRA;
+  uint8_t tempGPIOA;
+
+  uint8_t tempGPPUB;
+  uint8_t tempIOPOLB;
+  uint8_t tempGPINTENB;
+  uint8_t tempIODIRB;
+  uint8_t tempGPIOB;
+	
+
+  // Configure Buttons...
+  for (uint8_t pin = 0; pin < last_button; pin++) {
+	bitSet(tempGPPUA, pin);
+	bitSet(tempIOPOLA, pin);
+	bitSet(tempGPINTENA, pin);
+
+  	if (last_button > 8) {
+	  bitSet(tempGPPUB, pin);
+      bitSet(tempIOPOLB, pin);
+	  bitSet(tempGPINTENB, pin);	
+	}
+  }
+
+  Serial.print(F("tempGPPUA: "));
+  Serial.println(tempGPPUA);
+  Serial.print(F("tempIOPOLA: "));
+  Serial.println(tempIOPOLA);
+  Serial.print(F("tempGPINTENA: "));
+  Serial.println(tempGPINTENA);
+
+  // Write registers
+  // Port A
+  writeReg(MCP_GPPUA, tempGPPUA);            // Configure pull-up resistors - Port A
+  writeReg(MCP_IOPOLA, tempIOPOLA);          // Configure polarity invertion of signal - Port A
+  writeReg(MCP_GPINTENA, tempGPINTENA);      // Enable interrupts - Port A
+//  writeReg(MCP_IODIRA, tempIODIRA);          // Set port A direction
+//  writeReg(MCP_GPIOA, tempGPIOA);            // Set port A GPIO values
+
+  // Port B
+  writeReg(MCP_GPPUB, tempGPPUB);            // Configure pull-up resistors - Port B
+  writeReg(MCP_IOPOLB, tempIOPOLB);          // Configure polarity invertion of signal - Port B
+  writeReg(MCP_GPINTENB, tempGPINTENB);      // Enable interrupts - Port B
+  writeReg(MCP_IODIRB, tempIODIRB);          // Set port B direction
+  writeReg(MCP_GPIOB, tempGPIOB);            // Set port B GPIO values
+
+  readReg(MCP_INTCAPA);                 // read from interrupt capture port A to clear it
+//  readReg(MCP_INTCAPB);                 // read from interrupt capture port B to clear it  
+
+} // End configure
+
+*/
+
+
+// Class instance to configure the MCP23017
+void MCP23017::configure()
+{
+
+// expander configuration register
+  writeReg(MCP_IOCONA, 0x60);         // Disable sequential mode (0b01100000)
+  writeReg(MCP_IOCONB, 0x60);         // Disable sequential mode (0b01100000)
+
+  uint8_t tempGPPUA = 0;
+  uint8_t tempIOPOLA = 0;
+  uint8_t tempGPINTENA = 0;
+  uint8_t tempIODIRA = 0;
+  uint8_t tempGPIOA = 0;
+
+  uint8_t tempGPPUB;
+  uint8_t tempIOPOLB;
+  uint8_t tempGPINTENB;
+  uint8_t tempIODIRB;
+  uint8_t tempGPIOB;
+
+  // Configure Buttons...
+  for (uint8_t pin = 0; pin < last_button; pin++) {
+
+	Serial.println(pin);
+
+	bitSet(tempGPPUA, pin);
+	bitSet(tempIOPOLA, pin);
+	bitSet(tempGPINTENA, pin);
+	bitSet(tempIODIRA, pin);
+  	if (last_button > 8) {
+	  Serial.println(F("PORTB"));
+	  bitSet(tempGPPUB, pin);
+      bitSet(tempIOPOLB, pin);
+	  bitSet(tempGPINTENB, pin);
+	  bitSet(tempIODIRB, pin);	
+	}
+  }
+
+  Serial.print(F("tempGPPUA: "));
+  Serial.println(tempGPPUA);
+  Serial.print(F("tempIOPOLA: "));
+  Serial.println(tempIOPOLA);
+  Serial.print(F("tempGPINTENA: "));
+  Serial.println(tempGPINTENA);
+
+  Serial.print(F("tempIODIRA: "));
+  Serial.println(tempIODIRA);
+  Serial.print(F("tempGPIOA: "));
+  Serial.println(tempGPIOA);
+
+  // Write Port A configuration
+  writeReg(MCP_GPPUA, tempGPPUA);            // Enable pull-up resistors - Port A
+  writeReg(MCP_IOPOLA, tempIOPOLA);          // Invert polarity of signal - Port A
+  writeReg(MCP_GPINTENA, tempGPINTENA);      // Enable interrupts - Port A
+  writeReg(MCP_IODIRA, tempIODIRA);          // Set port A direction
+  writeReg(MCP_GPIOA, tempGPIOA);            // Set port A GPIO values
+/*
+  // Write Port A configuration
+  writeReg(MCP_GPPUB, tempGPPUB);            // Enable pull-up resistors - Port A
+  writeReg(MCP_IOPOLB, tempIOPOLB);          // Invert polarity of signal - Port A
+  writeReg(MCP_GPINTENB, tempGPINTENB);      // Enable interrupts - Port A
+  writeReg(MCP_IODIRB, tempIODIRB);          // Set port A direction
+  writeReg(MCP_GPIOB, tempGPIOB);            // Set port A GPIO values
+*/
+  readReg(MCP_INTCAPA);                 // Read from interrupt capture port A to clear it
+  readReg(MCP_INTCAPB);                 // Read from interrupt capture port B to clear it
+}
+
+/*
 // Class instance to configure the MCP23017
 void MCP23017::configure()
 {
@@ -261,7 +393,7 @@ void MCP23017::configure()
   writeReg(MCP_GPIOB, 0x00);            // Set port B LOW
 
 }
-
+*/
 
 // **** Read/Write routines ****
 
