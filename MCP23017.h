@@ -68,6 +68,7 @@ class MCP23017
 	uint8_t readGPIO;
 	uint8_t MCP_ADDRESS;
 	uint8_t last_button;
+	uint8_t last_output;
 };  
 
 	// Button related (Public) 
