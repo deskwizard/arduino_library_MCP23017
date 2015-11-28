@@ -66,6 +66,7 @@ class MCP23017
 	uint8_t buttonClickType[8] = {0};		// Button press type (Long, short, double, etc...)	
 
 	uint8_t readGPIO;
+	uint8_t MCP_ADDRESS;
 };  
 
 	// Button related (Public) 
@@ -78,7 +79,7 @@ class MCP23017
 
 #define bitToggle(value, bit) ((value) ^= (1UL << (bit)))
 
-#define MCP_ADDRESS 0x20     // MCP23017 is on address 0x20 (all addresses pins low)
+//#define MCP_ADDRESS 0x20     // MCP23017 is on address 0x20 (all addresses pins low)
 #define MCP_ERR 255
 #define MCP_ISR_DEBOUNCE 50	 // MCP23017 interrupt debouce time
 

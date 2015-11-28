@@ -290,7 +290,7 @@ uint8_t MCP23017::readReg(const uint8_t reg)
   Wire.beginTransmission(MCP_ADDRESS);
   Wire.write(reg);
   Wire.endTransmission();
-  Wire.requestFrom(MCP_ADDRESS, 1);
+  Wire.requestFrom(MCP_ADDRESS, (uint8_t)1);
   return Wire.read();
 }
 
@@ -369,6 +369,9 @@ void MCP23017::attach_isr() {
 // Class constructor (needs to be placed after "begin()" routine in library)
 MCP23017::MCP23017 (const uint8_t address, const uint8_t whichISR, const uint8_t last_button, const uint8_t output_count) : whichISR_ (whichISR)
 {
+ // Set address
+  MCP_ADDRESS = address;
+
   Wire.begin(); // Start i2c bus
 }
 
