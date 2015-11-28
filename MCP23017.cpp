@@ -320,11 +320,11 @@ void MCP23017::configure()
   uint8_t tempIODIRA = 0;
   uint8_t tempGPIOA = 0;
 
-  uint8_t tempGPPUB;
-  uint8_t tempIOPOLB;
-  uint8_t tempGPINTENB;
-  uint8_t tempIODIRB;
-  uint8_t tempGPIOB;
+  uint8_t tempGPPUB = 0;
+  uint8_t tempIOPOLB = 0;
+  uint8_t tempGPINTENB = 0;
+  uint8_t tempIODIRB = 0;
+  uint8_t tempGPIOB = 0;
 
   // Configure Buttons...
   for (uint8_t pin = 0; pin < last_button; pin++) {
