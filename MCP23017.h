@@ -58,12 +58,12 @@ class MCP23017
 	// Button related
 	uint8_t getLastIntPin();				// Gets which pin caused the interrupt
 	uint32_t prevISRMillis = 0; 			// Tracks the time since ISR fired last
-	uint32_t buttonPressTime[8] = {0};		// Time the button was pressed
-	uint32_t buttonReleaseTime[8] = {0};	// Time the button was released
-	uint8_t buttonReleaseCount[8] = {0};	// Button release counter (single/double click handling)
-    bool buttonState[8] = {false};			// State of the keys (Up/Down)
-	bool buttonNeedHandling[8] = {false};	// Button handling required flag
-	uint8_t buttonClickType[8] = {0};		// Button press type (Long, short, double, etc...)	
+	uint32_t buttonPressTime[16] = {0};		// Time the button was pressed
+	uint32_t buttonReleaseTime[16] = {0};	// Time the button was released
+	uint8_t buttonReleaseCount[16] = {0};	// Button release counter (single/double click handling)
+    bool buttonState[16] = {false};			// State of the keys (Up/Down)
+	bool buttonNeedHandling[16] = {false};	// Button handling required flag
+	uint8_t buttonClickType[16] = {0};		// Button press type (Long, short, double, etc...)	
 
 	uint8_t readGPIO;
 	uint8_t MCP_ADDRESS;
