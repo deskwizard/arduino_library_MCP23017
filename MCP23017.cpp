@@ -101,7 +101,7 @@ uint8_t MCP23017::getLastIntPin() {
 
   writeReg(MCP_GPINTENA, 0x00);     // Disable interrupts on MCP23017
 
-  for (uint8_t x = 0; x < 8; x++) {   // Check which GPIO Port A pin caused the interrupt
+  for (uint8_t x = 0; x < last_button; x++) {   // Check which GPIO Port A pin caused the interrupt
     if (bitRead(intpin, x)) {
       return x;           // Return the pin number (Port A bit)
     }
@@ -113,7 +113,7 @@ void MCP23017::handleClicks() {
 
   uint32_t currentMillis = millis();    // Save current millis()
 
-  for (uint8_t x = 0; x < 8; x++) {  // loop through buttons
+  for (uint8_t x = 0; x < last_button; x++) {  // loop through buttons
 
     // Single/Double click handling
     if (currentMillis - buttonReleaseTime[x] >= 225) {
@@ -367,10 +367,13 @@ void MCP23017::attach_isr() {
 }
 
 // Class constructor (needs to be placed after "begin()" routine in library)
-MCP23017::MCP23017 (const uint8_t address, const uint8_t whichISR, const uint8_t last_button, const uint8_t output_count) : whichISR_ (whichISR)
+MCP23017::MCP23017 (const uint8_t address, const uint8_t whichISR, const uint8_t button_cnt, const uint8_t output_cnt) : whichISR_ (whichISR)
 {
- // Set address
+  // Set address
   MCP_ADDRESS = address;
+
+  // Set max button
+  last_button = button_cnt;
 
   Wire.begin(); // Start i2c bus
 }

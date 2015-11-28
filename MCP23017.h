@@ -16,7 +16,7 @@ class MCP23017
 
     // Starts I2C bus for MCP on address 'address', prepare INT(which) for 'button_count' buttons 
 	// and configure 'output_count' outputs
-    MCP23017(const uint8_t address, const uint8_t which, const uint8_t button_count, const uint8_t output_count);		
+    MCP23017(const uint8_t address, const uint8_t which, const uint8_t button_cnt, const uint8_t output_cnt);		
     void begin();						// configures Arduino INT(which) pin and MCP23017 registers
 
 	// Button related
@@ -67,6 +67,7 @@ class MCP23017
 
 	uint8_t readGPIO;
 	uint8_t MCP_ADDRESS;
+	uint8_t last_button;
 };  
 
 	// Button related (Public) 
