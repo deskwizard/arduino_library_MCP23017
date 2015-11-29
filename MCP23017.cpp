@@ -44,7 +44,7 @@ void MCP23017::setGPIO(uint8_t pin, uint8_t value){
 		Serial.println(F(" - HIGH - "));
 		bitSet(readGPIO, pin);
 	break;
-	case INV:
+	case INV:  // *** Bug: Will only work once (3 presses, wont turn back off after that)
 		Serial.println(F(" - INV - "));
 		bitToggle(readGPIO, pin);
 	break;
@@ -265,15 +265,15 @@ void MCP23017::configure()
 
   // Configure Buttons...
   for (uint8_t pin = 0; pin < last_button; pin++) {
-	Serial.print(F("Configuring buttons..."));
-	Serial.println(pin);
+//	Serial.print(F("Configuring buttons..."));
+//	Serial.println(pin);
 
 	bitSet(tempGPPUA, pin);
 	bitSet(tempIOPOLA, pin);
 	bitSet(tempGPINTENA, pin);
 	bitSet(tempIODIRA, pin);
   	if (last_button > 8) {
-	  Serial.println(F("PORTB"));
+//	  Serial.println(F("PORTB"));
 	  bitSet(tempGPPUB, pin);
       bitSet(tempIOPOLB, pin);
 	  bitSet(tempGPINTENB, pin);
@@ -283,15 +283,15 @@ void MCP23017::configure()
 
     // Configure outputs...
   for (uint8_t pin = last_button; pin < (last_button + last_output); pin++) {
-	Serial.print(F("Configuring outputs..."));
-	Serial.println(pin);
+//	Serial.print(F("Configuring outputs..."));
+//	Serial.println(pin);
 
   	if (last_button > 8) {
-	  Serial.println(F("PORTB"));
+//	  Serial.println(F("PORTB"));
 
 	}
   }
-
+/*
   Serial.print(F("tempGPPUA: "));
   Serial.println(tempGPPUA);
   Serial.print(F("tempIOPOLA: "));
@@ -313,7 +313,7 @@ void MCP23017::configure()
   Serial.println(tempIODIRB);
   Serial.print(F("tempGPIOB: "));
   Serial.println(tempGPIOB);
-
+*/
   // Write Port A configuration
   writeReg(MCP_GPPUA, tempGPPUA);            // Enable pull-up resistors - Port A
   writeReg(MCP_IOPOLA, tempIOPOLA);          // Invert polarity of signal - Port A
@@ -332,26 +332,6 @@ void MCP23017::configure()
   readReg(MCP_INTCAPB);                 // Read from interrupt capture port B to clear it
 }
 
-/*
-// Class instance to configure the MCP23017
-void MCP23017::configure()
-{
-  // expander configuration register
-  writeReg(MCP_IOCONA, 0x60);         // Disable sequential mode (0b01100000)
-  writeReg(MCP_IOCONB, 0x60);         // Disable sequential mode (0b01100000)
-
-  // Port A configuration
-  writeReg(MCP_GPPUA, 0xFF);            // Enable pull-up resistors - Port A
-  writeReg(MCP_IOPOLA, 0xFF);           // Invert polarity of signal - Port A
-  writeReg(MCP_GPINTENA, 0xFF);         // Enable interrupts - Port A
-  readReg(MCP_INTCAPA);                 // read from interrupt capture port A to clear it
-
-  // Port B configuration
-  writeReg(MCP_IODIRB, 0x00);           // Set port B as output
-  writeReg(MCP_GPIOB, 0x00);            // Set port B LOW
-
-}
-*/
 
 // **** Read/Write routines ****
 
