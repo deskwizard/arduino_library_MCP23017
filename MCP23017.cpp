@@ -60,7 +60,6 @@ void MCP23017::setGPIO(uint8_t pin, uint8_t value){
 	// Update MCP
 	writeReg(MCP_GPIOB, readGPIO);
 
-
 	readGPIO = readReg(MCP_GPIOB);
 	Serial.print(F("GPIOB register read after: "));
 	Serial.println(bitRead(readGPIO, pin));
@@ -235,8 +234,6 @@ void MCP23017::handleClicks() {
       } // end if _buttonID
 
       prevISRMillis = currentMillis;  // Save when we last checked for interrupt (approximately...)
-      readReg(MCP_INTCAPA);           // Read from interrupt capture port A register (INTCAP register) to clear it
-      writeReg(MCP_GPINTENA, 0xFF); // Re-enable interrupts on MCP23017
       attach_isr();         // Re-enable interrupts on Arduino
     } // end debounce
   }
@@ -434,6 +431,8 @@ void MCP23017::attach_isr() {
       instance5_ = this;
       break;
   }
+    readReg(MCP_INTCAPA);           // Read from interrupt capture port A register (INTCAP register) to clear it
+    writeReg(MCP_GPINTENA, 0xFF); // Re-enable interrupts on MCP23017
 }
 
 // Class constructor (needs to be placed after "begin()" routine in library)
