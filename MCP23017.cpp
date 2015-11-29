@@ -18,8 +18,8 @@
 // **** GPIO related class instances ****
 
 void MCP23017::setGPIO(uint8_t pin, uint8_t value){
-	// read register ** Change later **
-    readGPIO = readReg(MCP_GPIOB);
+//	// read register ** Change later **
+//    readGPIO = readReg(MCP_GPIOB);
 
 	Serial.print(F("GPIOB register read before: "));
 	Serial.println(readGPIO);
@@ -324,6 +324,8 @@ void MCP23017::configure()
   writeReg(MCP_GPINTENB, tempGPINTENB);      // Enable interrupts - Port B
   writeReg(MCP_IODIRB, tempIODIRB);          // Set port B direction
   writeReg(MCP_GPIOB, tempGPIOB);            // Set port B GPIO values
+
+  readGPIO = readReg(MCP_GPIOB);		// Load pin states
 
   readReg(MCP_INTCAPA);                 // Read from interrupt capture port A to clear it
   readReg(MCP_INTCAPB);                 // Read from interrupt capture port B to clear it
